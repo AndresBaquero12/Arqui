@@ -1,0 +1,50 @@
+{
+  "name": "ajedres",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:users": "ts-node src/users-service/index.ts",
+    "start:auth": "ts-node src/auth-service/index.ts",
+    "start:profile": "ts-node src/profile-service/index.ts",
+    "start:games": "ts-node src/games-service/server.ts",
+    "start:guest": "ts-node src/guest-service/index.ts",
+    "start:matchmaking": "ts-node src/matchmaking-service/index.ts",
+    "start:all": "concurrently \"npm run start:users\" \"npm run start:auth\" \"npm run start:profile\" \"npm run start:games\" \"npm run start:guest\" \"npm run start:matchmaking\" \"npm run start:frontend\"",
+    "start:frontend": "cd client && npm run dev",
+    "seed": "ts-node prisma/seed.ts",
+    "backup": "copy prisma\\dev.db prisma\\backup_dev.db",
+    "restore": "copy prisma\\backup_dev.db prisma\\dev.db"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@prisma/client": "^6.19.3",
+    "axios": "^1.13.6",
+    "bcrypt": "^6.0.0",
+    "chess.js": "^1.4.0",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "prisma": "^6.19.3",
+    "sqlite3": "^6.0.1",
+    "ws": "^8.19.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^25.5.0",
+    "@types/ws": "^8.18.1",
+    "concurrently": "^9.2.1",
+    "nodemon": "^3.1.14",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}

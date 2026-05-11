@@ -1,0 +1,34 @@
+{
+  "users": [
+    {
+      "usuarioId": 1,
+      "correoElectronico": "admin@ajedrez.com",
+      "contrasena": "$2b$10$wEIn5Xj7vGzE3m5r/T5xX.Ew0nXZ.e/Gz9x7Y/L/9g1xZ5Y/L/9g1",
+      "nombreUsuario": "admin_demo"
+    },
+    {
+      "correoElectronico": "test@ajedrez.com",
+      "contrasena": "$2b$10$3ew5z7Uf0WhGg2X/VnNvc.uSXJ4JdYMckqHlAhqGVSY7zsb0B39V.",
+      "nombreUsuario": "testuser",
+      "usuarioId": 2
+    },
+    {
+      "correoElectronico": "Carlos12@ajedres.com",
+      "contrasena": "$2b$10$lSVUfTLTTNEsXYTSYDPx1uEzrJ8RnLpbrWO5wx9TOT0Guja3QKKuO",
+      "nombreUsuario": "Carlos",
+      "usuarioId": 3
+    },
+    {
+      "correoElectronico": "xd@gmail.com",
+      "contrasena": "$2b$10$YxJo7VvBMBcGJCVz.CDl1.VvZ4tZo8mYnYus2KtSPbTw8eeUZOCIO",
+      "nombreUsuario": "miguel",
+      "usuarioId": 4
+    },
+    {
+      "correoElectronico": "miguel@hotmail.com",
+      "contrasena": "$2b$10$H6402Jah/A.qjkDqKmGNm.H2canHhO6q8xmSi48gBIH4OWB8iymX2",
+      "nombreUsuario": "miguel123",
+      "usuarioId": 5
+    }
+  ]
+}

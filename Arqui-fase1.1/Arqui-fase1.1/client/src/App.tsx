@@ -22,6 +22,7 @@ export default function App() {
       <LoginPlayer
         onBack={actions.navigateToMenu}
         onLogin={actions.handleLogin}
+        onExternalLogin={actions.handleExternalLogin}
       />
     );
   }

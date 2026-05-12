@@ -19,6 +19,7 @@ import { AIService, Difficulty } from './services/ai.service';
 import { PrismaClient } from '@prisma/client';
 
 const aiGamesMeta = new Map<string, { difficulty: Difficulty, playerColor: 'white' | 'black' }>();
+const authClients = new Map<string, WebSocket>(); // Tracks PCs waiting for QR auth
 
 const prisma = new PrismaClient();
 
@@ -30,6 +31,29 @@ app.use(express.json());
 
 app.use('/games', gamesRoutes);
 app.use('/games/multiplayer', multiplayerRoutes);
+
+// Internal Notification Endpoint for Auth Service
+app.post('/internal/auth-notify', (req, res) => {
+  const { sessionId, tokenJwt, user } = req.body;
+  console.log(`Received auth notification for session: ${sessionId}`);
+
+  const socket = authClients.get(sessionId);
+  if (socket && socket.readyState === WebSocket.OPEN) {
+    socket.send(JSON.stringify({
+      type: 'login_success',
+      payload: {
+        tokenJwt,
+        usuarioId: user.usuarioId,
+        nombreUsuario: user.nombreUsuario
+      }
+    }));
+    authClients.delete(sessionId); // Clean up
+    res.json({ success: true });
+  } else {
+    console.warn(`No active socket found for session: ${sessionId}`);
+    res.status(404).json({ error: 'No active socket for this session' });
+  }
+});
 
 // Endpoint de prueba para verificar conectividad
 app.get('/test', (req, res) => {
@@ -234,6 +258,12 @@ wss.on('connection', (socket: WebSocket) => {
         }
       }
 
+      if (action === 'subscribeAuth') {
+        const { sessionId } = payload;
+        console.log(`Socket subscribing to auth session: ${sessionId}`);
+        authClients.set(sessionId, socket);
+      }
+
       if (action === 'heartbeat') {
         socket.send(JSON.stringify({ type: 'heartbeat', payload: 'alive' }));
       }
@@ -246,6 +276,13 @@ wss.on('connection', (socket: WebSocket) => {
   socket.on('close', (code, reason) => {
     console.log('WebSocket closed', { code, reason: reason.toString() });
     unregisterSocket(socket);
+    // Clean up auth subscriptions
+    for (const [sid, s] of authClients.entries()) {
+      if (s === socket) {
+        authClients.delete(sid);
+        break;
+      }
+    }
   });
 });
 

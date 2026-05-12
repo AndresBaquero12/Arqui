@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
-import { findUserByEmail, findUserByUsername, createUser, findUserById, getRanking } from '../models/userModel';
+import { findUserByEmail, findUserByUsername, createUser, findUserById, getRanking, upsertUserByEmail } from '../models/userModel';
 
 export const registerUser = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -94,6 +94,21 @@ export const getUserStats = async (req: Request, res: Response): Promise<void> =
     res.json(stats);
   } catch (error) {
     console.error('Error in getUserStats:', error);
+    res.status(500).json({ error: 'Error del servidor' });
+  }
+};
+export const upsertUser = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { correoElectronico, nombreUsuario } = req.body;
+    if (!correoElectronico || !nombreUsuario) {
+      res.status(400).json({ error: 'Faltan campos obligatorios' });
+      return;
+    }
+
+    const user = await upsertUserByEmail({ correoElectronico, nombreUsuario });
+    res.json(user);
+  } catch (error) {
+    console.error('Error in upsertUser:', error);
     res.status(500).json({ error: 'Error del servidor' });
   }
 };

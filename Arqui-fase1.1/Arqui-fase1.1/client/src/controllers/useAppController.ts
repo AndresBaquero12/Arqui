@@ -126,8 +126,15 @@ export function useAppController() {
 
   const handleLogout = () => {
     localStorage.removeItem("ajedrez_user");
+    localStorage.removeItem("ajedrez_token");
     setPlayerData(null);
     setGameId(null);
+    setCurrentPage("menu");
+  };
+
+  const handleExternalLogin = (user: { id: number, name: string, email: string }) => {
+    storageModel.saveUser(user.name, user.email);
+    setPlayerData(user);
     setCurrentPage("menu");
   };
 
@@ -142,6 +149,7 @@ export function useAppController() {
     actions: {
       handleRegister,
       handleLogin,
+      handleExternalLogin,
       handleCreateGame,
       handleGuestPlay,
       handleLogout,

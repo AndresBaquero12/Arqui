@@ -52,3 +52,22 @@ export const updateElo = async (usuarioId: number, newElo: number, win?: boolean
     }
   });
 };
+
+export const upsertUserByEmail = async (data: { correoElectronico: string; nombreUsuario: string }): Promise<User> => {
+  // If user exists, we just return it (or update last login if we had that field)
+  // If not, we create it with a dummy password since they use Google
+  const existing = await prisma.user.findUnique({ where: { correoElectronico: data.correoElectronico } });
+  if (existing) return existing;
+
+  return prisma.user.create({
+    data: {
+      correoElectronico: data.correoElectronico,
+      nombreUsuario: data.nombreUsuario,
+      contrasena: 'OAUTH_USER_' + Math.random().toString(36).substring(7), // Dummy password
+      elo: 1200,
+      victorias: 0,
+      derrotas: 0,
+      empates: 0
+    }
+  });
+};

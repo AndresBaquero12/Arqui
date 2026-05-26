@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajedrez Microservicios - Simulador</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <header>
+            <h1>Ajedrez en Vivo (Simulación)</h1>
+            <div id="user-info" class="hidden">
+                <span id="welcome-msg"></span>
+                <button id="logout-btn">Salir</button>
+            </div>
+        </header>
+
+        <main>
+            <!-- SECCIÓN LOGIN -->
+            <section id="login-section" class="card">
+                <h2>Iniciar Sesión</h2>
+                <form id="login-form">
+                    <input type="email" id="email" placeholder="Correo electrónico" required value="admin@ajedrez.com">
+                    <input type="password" id="password" placeholder="Contraseña" required value="123456"> <!-- Demo pass is just placeholder, we don't know the exact one, so user has to input or we rely on the ones we created in test -->
+                    <button type="submit" class="primary-btn">Entrar</button>
+                    <p id="login-error" class="error"></p>
+                </form>
+                <hr>
+                <h3>¿No tienes cuenta? Registrate (Se usará de forma rápida)</h3>
+                <form id="register-form">
+                    <input type="text" id="reg-user" placeholder="Usuario" required>
+                    <input type="email" id="reg-email" placeholder="Correo" required>
+                    <input type="password" id="reg-pass" placeholder="Contraseña" required>
+                    <button type="submit" class="secondary-btn">Registrar</button>
+                    <p id="reg-msg"></p>
+                </form>
+            </section>
+
+            <!-- SECCIÓN DASHBOARD (Juegos activos) -->
+            <section id="dashboard-section" class="hidden">
+                <div class="card">
+                    <h2>Crear Partida Simulada</h2>
+                    <div class="row">
+                        <input type="number" id="opponent-id" placeholder="ID del Oponente (Ej: 1 o 2)">
+                        <button id="create-game-btn" class="primary-btn">Empezar Partida</button>
+                    </div>
+                    <p id="game-create-msg"></p>
+                </div>
+
+                <div class="card">
+                    <h2>Mis Partidas Activas</h2>
+                    <ul id="active-games-list">
+                        <li>Cargando...</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- SECCIÓN PARTIDA EN VIVO -->
+            <section id="game-section" class="hidden">
+                <div class="card game-board-container">
+                    <div class="game-header">
+                        <h2>Partida #<span id="match-id-display"></span></h2>
+                        <span id="match-status" class="badge">Activa</span>
+                    </div>
+                    
+                    <div class="board-layout">
+                        <div class="board-visual">
+                            <!-- Un tablero hiper simple solo para decoración -->
+                            <div class="chess-grid"></div>
+                        </div>
+                        <div class="moves-panel">
+                            <h3>Movimientos (Auto)</h3>
+                            <ul id="moves-list"></ul>
+                        </div>
+                    </div>
+                    <button id="back-dashboard-btn" class="secondary-btn mt-1">Volver al Dashboard</button>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
